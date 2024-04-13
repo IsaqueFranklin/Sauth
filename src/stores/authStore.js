@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { createUserWithEmailAndPassword, signOut, sendPasswordResetEmail, updateEMail, updatePassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signOut, sendPasswordResetEmail, updateEmail, updatePassword } from 'firebase/auth';
 import { auth } from '../lib/firebase/firebase.client';
 
 export const authStore = writable({
@@ -18,7 +18,7 @@ export const authHandlers = {
         await sendPasswordResetEmail(auth, email)
     },
     updateEmail: async (email) => {
-        await updateEMail(auth, email)
+        await updateEmail(auth, email)
     },
     updatePassword: async (password) => {
         await updatePassword(auth, password)
