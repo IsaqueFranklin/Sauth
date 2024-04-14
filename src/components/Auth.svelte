@@ -51,5 +51,8 @@
         <div class="mt-4 text-sm">Already have an account? <button on:click={() => register = false} on:keydown={() => {}}>Login</button></div>
     {:else}
         <div class="mt-4 text-sm">Don't have an account? <button on:click={() => register = true} on:keydown={() => {}}>Register</button></div>
+        <div class="mt-4 text-sm"><button on:click={() => {
+            authHandlers.resetPassword(email)
+        }} on:keydown={() => {}}>Forgot password?</button></div>
     {/if}
 </div>

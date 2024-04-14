@@ -18,13 +18,17 @@ export const authHandlers = {
         await signOut(auth)
     },
     resetPassword: async (email) => {
+        if (!email) {
+            return
+        }
         await sendPasswordResetEmail(auth, email)
     },
     updateEmail: async (email) => {
         authStore.update(curr => {
             return {...curr, currentUser: {
                 ...curr.currentUser, email: email
-            }}
+            }
+        }
         })
         await updateEmail(auth.currentUser, email)
     },
