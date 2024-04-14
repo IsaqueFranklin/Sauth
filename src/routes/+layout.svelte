@@ -3,6 +3,7 @@
     import {auth} from '../lib/firebase/firebase.client';
     import {authStore} from '../stores/authStore';
     import "../app.css";
+    import { browser } from '$app/environment';
 
     onMount(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
@@ -10,7 +11,12 @@
             authStore.update((curr) => {
                 return {...curr, isLoading: false, currentUser: user};
             })
+
+            if (browser && !$authStore?.currentUser && !$authStore.isLoading && window.location.pathname !== '/'){
+                window.location.href = '/';
+            }
         })
+        return unsubscribe;
     })
 </script>
 

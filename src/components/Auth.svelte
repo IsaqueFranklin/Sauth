@@ -1,4 +1,5 @@
 <script>
+	import { auth } from '../lib/firebase/firebase.client.js';
 	import { authHandlers, authStore } from './../stores/authStore.js';
     let register = false;
     let email = '';

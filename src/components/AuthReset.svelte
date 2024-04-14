@@ -1,51 +1,49 @@
 <script>
 	import { authHandlers, authStore } from './../stores/authStore.js';
     let action = '';
-    let email = '';
-    let password = '';
-    let confirmPassword = '';
+    let newEmail = '';
+    let newPass = '';
 
     async function handleSubmit() {
-        if (!email || !password || (register && !confirmPassword)) {
+        if (!action) {
             return
         }
 
-        if (register && password === confirmPassword) {
-            try {
-                await authHandlers.signup(email, password);
-            } catch(err) {
-                console.log(err)
-            }
-        } else {
-            try {
-                await authHandlers.login(email, password);
-            } catch(err) {
-                console.log(err)
-            }
+        if (action === 'updatePass'){
+            return await authHandlers.updatePassword(newPass);
         }
 
-        if ($authStore.currentUser) {
-            window.location.href = '/privatedashboard';
+        if (action === 'updateEmail'){
+            console.log(newEmail)
+            return await authHandlers.updateEmail(newEmail);
         }
     }
 </script>
 
 <div class="flex flex-col items-center justify-center my-auto">
-    <div>
-        
+    <div class="my-4">
+        <button class="px-2 py-2 border border-gray-800 hover:bg-gray-800 hover:text-white" on:click={() => {
+            action = 'updateEmail'
+        }}>Update email</button>
+        <button class="px-2 py-2 border border-gray-800 hover:bg-gray-800 hover:text-white" on:click={() => {
+            action = 'updatePass'
+        }}>Update password</button>
     </div>
-    <form class="flex flex-col">
-        <label class="mb-4">
-            <input bind:value={email} class="px-2 py-2 border border-gray-800" type="email" placeholder="Email" />
-        </label>
-        <label class="mb-4">
-            <input bind:value={password} class="px-2 py-2 border border-gray-800" type="password" placeholder="Password" />
-        </label>
-        {#if register}
-        <label class="mb-4">
-            <input bind:value={confirmPassword} class="px-2 py-2 border border-gray-800" type="password" placeholder="Confirm password" />
-        </label>
-        {/if}
-        <button on:click={handleSubmit} class="px-1 py-2 border border-gray-800 hover:bg-gray-800 hover:text-white">Submit</button>
-    </form> 
+    {#if action === 'updateEmail'}
+        <form class="flex flex-col">
+            <label class="mb-4">
+                <input bind:value={newEmail} class="px-2 py-2 border border-gray-800" type="email" placeholder="New Email" />
+            </label>
+            <button on:click={handleSubmit} class="px-1 py-2 border border-gray-800 hover:bg-gray-800 hover:text-white">Submit</button>
+        </form> 
+    {/if}
+
+    {#if action === 'updatePass'}
+        <form class="flex flex-col">
+            <label class="mb-4">
+                <input bind:value={newPass} class="px-2 py-2 border border-gray-800" type="password" placeholder="New Password" />
+            </label>
+            <button on:click={handleSubmit} class="px-1 py-2 border border-gray-800 hover:bg-gray-800 hover:text-white">Submit</button>
+        </form> 
+    {/if}
 </div>
